@@ -4,6 +4,7 @@ package demo.coinz;
 import "amino/amino.proto";
 import "gogoproto/gogo.proto";
 import "demo/coinz/params.proto";
+import "demo/coinz/admin.proto";
 
 option go_package = "github.com/jtieri/demo/x/coinz/types";
 
@@ -14,4 +15,8 @@ message GenesisState {
     (gogoproto.nullable) = false,
     (amino.dont_omitempty) = true
   ];
+
+  // Admin should be initialized via genesis.json as it can only be updated post-genesis if there is an existing
+  // Admin already initialized.
+  Admin admin = 2;
 }

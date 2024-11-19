@@ -9,6 +9,9 @@ const (
 
 	// MemStoreKey defines the in-memory store key
 	MemStoreKey = "mem_coinz"
+
+	// AdminKey defines the Admin store key
+	AdminKey = "Admin/value/"
 )
 
 var (

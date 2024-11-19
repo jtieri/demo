@@ -13,12 +13,21 @@ func InitGenesis(ctx sdk.Context, k keeper.Keeper, genState types.GenesisState) 
 	if err := k.SetParams(ctx, genState.Params); err != nil {
 		panic(err)
 	}
+
+	if genState.Admin != nil {
+		k.SetAdmin(ctx, *genState.Admin)
+	}
 }
 
 // ExportGenesis returns the module's exported genesis.
 func ExportGenesis(ctx sdk.Context, k keeper.Keeper) *types.GenesisState {
 	genesis := types.DefaultGenesis()
 	genesis.Params = k.GetParams(ctx)
+
+	admin, found := k.GetAdmin(ctx)
+	if found {
+		genesis.Admin = &admin
+	}
 
 	// this line is used by starport scaffolding # genesis/module/export
 

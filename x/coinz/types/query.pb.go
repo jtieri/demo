@@ -6,10 +6,6 @@ package types
 import (
 	context "context"
 	fmt "fmt"
-	io "io"
-	math "math"
-	math_bits "math/bits"
-
 	_ "github.com/cosmos/cosmos-sdk/types/query"
 	_ "github.com/cosmos/cosmos-sdk/types/tx/amino"
 	_ "github.com/cosmos/gogoproto/gogoproto"
@@ -19,6 +15,9 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
+	io "io"
+	math "math"
+	math_bits "math/bits"
 )
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -115,35 +114,121 @@ func (m *QueryParamsResponse) GetParams() Params {
 	return Params{}
 }
 
+type QueryAdminAddressRequest struct {
+}
+
+func (m *QueryAdminAddressRequest) Reset()         { *m = QueryAdminAddressRequest{} }
+func (m *QueryAdminAddressRequest) String() string { return proto.CompactTextString(m) }
+func (*QueryAdminAddressRequest) ProtoMessage()    {}
+func (*QueryAdminAddressRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_c578db52ee7228c4, []int{2}
+}
+func (m *QueryAdminAddressRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryAdminAddressRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryAdminAddressRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryAdminAddressRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryAdminAddressRequest.Merge(m, src)
+}
+func (m *QueryAdminAddressRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryAdminAddressRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryAdminAddressRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryAdminAddressRequest proto.InternalMessageInfo
+
+type QueryAdminAddressResponse struct {
+	Address string `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
+}
+
+func (m *QueryAdminAddressResponse) Reset()         { *m = QueryAdminAddressResponse{} }
+func (m *QueryAdminAddressResponse) String() string { return proto.CompactTextString(m) }
+func (*QueryAdminAddressResponse) ProtoMessage()    {}
+func (*QueryAdminAddressResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_c578db52ee7228c4, []int{3}
+}
+func (m *QueryAdminAddressResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryAdminAddressResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryAdminAddressResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryAdminAddressResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryAdminAddressResponse.Merge(m, src)
+}
+func (m *QueryAdminAddressResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryAdminAddressResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryAdminAddressResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryAdminAddressResponse proto.InternalMessageInfo
+
+func (m *QueryAdminAddressResponse) GetAddress() string {
+	if m != nil {
+		return m.Address
+	}
+	return ""
+}
+
 func init() {
 	proto.RegisterType((*QueryParamsRequest)(nil), "demo.coinz.QueryParamsRequest")
 	proto.RegisterType((*QueryParamsResponse)(nil), "demo.coinz.QueryParamsResponse")
+	proto.RegisterType((*QueryAdminAddressRequest)(nil), "demo.coinz.QueryAdminAddressRequest")
+	proto.RegisterType((*QueryAdminAddressResponse)(nil), "demo.coinz.QueryAdminAddressResponse")
 }
 
 func init() { proto.RegisterFile("demo/coinz/query.proto", fileDescriptor_c578db52ee7228c4) }
 
 var fileDescriptor_c578db52ee7228c4 = []byte{
-	// 308 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x74, 0x50, 0xbd, 0x4a, 0x7b, 0x31,
-	0x14, 0xbf, 0xf9, 0xc3, 0xbf, 0x60, 0x9c, 0x8c, 0xc5, 0x8f, 0x2a, 0xa9, 0x16, 0x07, 0xe9, 0x70,
-	0x43, 0x2b, 0xae, 0x0e, 0x9d, 0x1d, 0xb4, 0xa3, 0x5b, 0x6e, 0x0d, 0x31, 0xd2, 0x9b, 0x93, 0xde,
-	0xe4, 0x8a, 0x75, 0xf4, 0x09, 0x04, 0x5f, 0xc2, 0xd1, 0xc7, 0xe8, 0x58, 0x70, 0x71, 0x12, 0x69,
-	0x05, 0x5f, 0x43, 0x6e, 0x12, 0xb0, 0xa5, 0xb8, 0x84, 0xc3, 0xef, 0x2b, 0xbf, 0x73, 0xf0, 0xd6,
-	0xb5, 0xc8, 0x81, 0x0d, 0x40, 0xe9, 0x07, 0x36, 0x2a, 0x45, 0x31, 0x4e, 0x4d, 0x01, 0x0e, 0x08,
-	0xae, 0xf0, 0xd4, 0xe3, 0x8d, 0x0d, 0x9e, 0x2b, 0x0d, 0xcc, 0xbf, 0x81, 0x6e, 0xd4, 0x25, 0x48,
-	0xf0, 0x23, 0xab, 0xa6, 0x88, 0xee, 0x4b, 0x00, 0x39, 0x14, 0x8c, 0x1b, 0xc5, 0xb8, 0xd6, 0xe0,
-	0xb8, 0x53, 0xa0, 0x6d, 0x64, 0xdb, 0x03, 0xb0, 0x39, 0x58, 0x96, 0x71, 0x2b, 0xc2, 0x5f, 0xec,
-	0xae, 0x93, 0x09, 0xc7, 0x3b, 0xcc, 0x70, 0xa9, 0xb4, 0x17, 0x47, 0xed, 0xf6, 0x42, 0x2d, 0xc3,
-	0x0b, 0x9e, 0xc7, 0x90, 0x56, 0x1d, 0x93, 0xcb, 0xca, 0x7a, 0xe1, 0xc1, 0xbe, 0x18, 0x95, 0xc2,
-	0xba, 0xd6, 0x39, 0xde, 0x5c, 0x42, 0xad, 0x01, 0x6d, 0x05, 0x39, 0xc5, 0xb5, 0x60, 0xde, 0x41,
-	0x07, 0xe8, 0x78, 0xbd, 0x4b, 0xd2, 0xdf, 0xad, 0xd2, 0xa0, 0xed, 0xad, 0x4d, 0x3e, 0x9a, 0xc9,
-	0xcb, 0xf7, 0x6b, 0x1b, 0xf5, 0xa3, 0xb8, 0x5b, 0xe2, 0xff, 0x3e, 0x8d, 0x0c, 0x71, 0x2d, 0xa8,
-	0x08, 0x5d, 0x74, 0xae, 0x16, 0x68, 0x34, 0xff, 0xe4, 0x43, 0x95, 0xd6, 0xe1, 0xe3, 0xdb, 0xd7,
-	0xf3, 0xbf, 0x3d, 0xb2, 0xcb, 0x6e, 0x9d, 0x12, 0x85, 0x62, 0x2b, 0x0b, 0xf6, 0xce, 0x26, 0x33,
-	0x8a, 0xa6, 0x33, 0x8a, 0x3e, 0x67, 0x14, 0x3d, 0xcd, 0x69, 0x32, 0x9d, 0xd3, 0xe4, 0x7d, 0x4e,
-	0x93, 0xab, 0x23, 0xa9, 0xdc, 0x4d, 0x99, 0xa5, 0x03, 0xc8, 0x97, 0xec, 0xf7, 0x31, 0xc0, 0x8d,
-	0x8d, 0xb0, 0x59, 0xcd, 0x5f, 0xe8, 0xe4, 0x27, 0x00, 0x00, 0xff, 0xff, 0xf2, 0xde, 0x8c, 0x6f,
-	0xd3, 0x01, 0x00, 0x00,
+	// 380 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x84, 0x51, 0x3f, 0x4b, 0xf3, 0x40,
+	0x18, 0xcf, 0xbd, 0xf0, 0xf6, 0xa5, 0xf7, 0xba, 0x78, 0x16, 0x6d, 0xa3, 0xa4, 0x35, 0x54, 0x28,
+	0x1d, 0x72, 0xb4, 0xd2, 0x55, 0x68, 0x67, 0x07, 0xed, 0xe8, 0x22, 0x97, 0xe6, 0x88, 0x27, 0xcd,
+	0x5d, 0x9a, 0xbb, 0x8a, 0x75, 0x14, 0xdc, 0x05, 0xbf, 0x84, 0xa3, 0x1f, 0xa3, 0x63, 0xc1, 0xc5,
+	0x49, 0xa4, 0x15, 0xfc, 0x14, 0x82, 0xe4, 0x72, 0x6a, 0x4b, 0x2b, 0x2e, 0xe1, 0xc9, 0xef, 0xf9,
+	0x3d, 0xbf, 0x3f, 0x09, 0xdc, 0x0c, 0x68, 0x24, 0x70, 0x4f, 0x30, 0x7e, 0x85, 0x07, 0x43, 0x9a,
+	0x8c, 0xbc, 0x38, 0x11, 0x4a, 0x20, 0x98, 0xe2, 0x9e, 0xc6, 0xed, 0x75, 0x12, 0x31, 0x2e, 0xb0,
+	0x7e, 0x66, 0x6b, 0xbb, 0x10, 0x8a, 0x50, 0xe8, 0x11, 0xa7, 0x93, 0x41, 0x77, 0x42, 0x21, 0xc2,
+	0x3e, 0xc5, 0x24, 0x66, 0x98, 0x70, 0x2e, 0x14, 0x51, 0x4c, 0x70, 0x69, 0xb6, 0xf5, 0x9e, 0x90,
+	0x91, 0x90, 0xd8, 0x27, 0x92, 0x66, 0x5e, 0xf8, 0xa2, 0xe1, 0x53, 0x45, 0x1a, 0x38, 0x26, 0x21,
+	0xe3, 0x9a, 0x6c, 0xb8, 0x5b, 0x73, 0xb1, 0x62, 0x92, 0x90, 0xc8, 0x88, 0xb8, 0x05, 0x88, 0x8e,
+	0xd3, 0xd3, 0x23, 0x0d, 0x76, 0xe9, 0x60, 0x48, 0xa5, 0x72, 0x0f, 0xe1, 0xc6, 0x02, 0x2a, 0x63,
+	0xc1, 0x25, 0x45, 0x2d, 0x98, 0xcb, 0x8e, 0x8b, 0xa0, 0x02, 0x6a, 0xff, 0x9b, 0xc8, 0xfb, 0x6e,
+	0xe5, 0x65, 0xdc, 0x4e, 0x7e, 0xfc, 0x5c, 0xb6, 0xee, 0xdf, 0x1e, 0xea, 0xa0, 0x6b, 0xc8, 0xae,
+	0x0d, 0x8b, 0x5a, 0xad, 0x1d, 0x44, 0x8c, 0xb7, 0x83, 0x20, 0xa1, 0xf2, 0xcb, 0xa9, 0x05, 0x4b,
+	0x2b, 0x76, 0xc6, 0xaf, 0x08, 0xff, 0x91, 0x0c, 0xd2, 0x86, 0xf9, 0xee, 0xe7, 0x6b, 0xf3, 0x1d,
+	0xc0, 0xbf, 0xfa, 0x0e, 0xf5, 0x61, 0x2e, 0x73, 0x46, 0xce, 0x7c, 0x9a, 0xe5, 0x52, 0x76, 0xf9,
+	0xc7, 0x7d, 0x66, 0xe7, 0xee, 0x5e, 0x3f, 0xbe, 0xde, 0xfd, 0xd9, 0x46, 0x25, 0x7c, 0xae, 0x18,
+	0x4d, 0x18, 0x5e, 0xfa, 0x68, 0xe8, 0x06, 0xc0, 0xb5, 0xf9, 0xa8, 0xa8, 0xba, 0x24, 0xba, 0xa2,
+	0xa5, 0xbd, 0xf7, 0x0b, 0xcb, 0x04, 0xa8, 0xe9, 0x00, 0x2e, 0xaa, 0xac, 0x08, 0x40, 0xd2, 0x83,
+	0x53, 0xd3, 0xbf, 0x73, 0x30, 0x9e, 0x3a, 0x60, 0x32, 0x75, 0xc0, 0xcb, 0xd4, 0x01, 0xb7, 0x33,
+	0xc7, 0x9a, 0xcc, 0x1c, 0xeb, 0x69, 0xe6, 0x58, 0x27, 0xd5, 0x90, 0xa9, 0xb3, 0xa1, 0xef, 0xf5,
+	0x44, 0xb4, 0xa0, 0x72, 0x69, 0x74, 0xd4, 0x28, 0xa6, 0xd2, 0xcf, 0xe9, 0xbf, 0xbf, 0xff, 0x11,
+	0x00, 0x00, 0xff, 0xff, 0x96, 0xea, 0x0a, 0xd7, 0xaf, 0x02, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -160,6 +245,8 @@ const _ = grpc.SupportPackageIsVersion4
 type QueryClient interface {
 	// Parameters queries the parameters of the module.
 	Params(ctx context.Context, in *QueryParamsRequest, opts ...grpc.CallOption) (*QueryParamsResponse, error)
+	// Queries a list of AdminAddress items.
+	AdminAddress(ctx context.Context, in *QueryAdminAddressRequest, opts ...grpc.CallOption) (*QueryAdminAddressResponse, error)
 }
 
 type queryClient struct {
@@ -179,10 +266,21 @@ func (c *queryClient) Params(ctx context.Context, in *QueryParamsRequest, opts .
 	return out, nil
 }
 
+func (c *queryClient) AdminAddress(ctx context.Context, in *QueryAdminAddressRequest, opts ...grpc.CallOption) (*QueryAdminAddressResponse, error) {
+	out := new(QueryAdminAddressResponse)
+	err := c.cc.Invoke(ctx, "/demo.coinz.Query/AdminAddress", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 type QueryServer interface {
 	// Parameters queries the parameters of the module.
 	Params(context.Context, *QueryParamsRequest) (*QueryParamsResponse, error)
+	// Queries a list of AdminAddress items.
+	AdminAddress(context.Context, *QueryAdminAddressRequest) (*QueryAdminAddressResponse, error)
 }
 
 // UnimplementedQueryServer can be embedded to have forward compatible implementations.
@@ -191,6 +289,9 @@ type UnimplementedQueryServer struct {
 
 func (*UnimplementedQueryServer) Params(ctx context.Context, req *QueryParamsRequest) (*QueryParamsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Params not implemented")
+}
+func (*UnimplementedQueryServer) AdminAddress(ctx context.Context, req *QueryAdminAddressRequest) (*QueryAdminAddressResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AdminAddress not implemented")
 }
 
 func RegisterQueryServer(s grpc1.Server, srv QueryServer) {
@@ -215,6 +316,24 @@ func _Query_Params_Handler(srv interface{}, ctx context.Context, dec func(interf
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_AdminAddress_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryAdminAddressRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).AdminAddress(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/demo.coinz.Query/AdminAddress",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).AdminAddress(ctx, req.(*QueryAdminAddressRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var Query_serviceDesc = _Query_serviceDesc
 var _Query_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "demo.coinz.Query",
@@ -223,6 +342,10 @@ var _Query_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Params",
 			Handler:    _Query_Params_Handler,
+		},
+		{
+			MethodName: "AdminAddress",
+			Handler:    _Query_AdminAddress_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -285,6 +408,59 @@ func (m *QueryParamsResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
+func (m *QueryAdminAddressRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryAdminAddressRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryAdminAddressRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryAdminAddressResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryAdminAddressResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryAdminAddressResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Address) > 0 {
+		i -= len(m.Address)
+		copy(dAtA[i:], m.Address)
+		i = encodeVarintQuery(dAtA, i, uint64(len(m.Address)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
 func encodeVarintQuery(dAtA []byte, offset int, v uint64) int {
 	offset -= sovQuery(v)
 	base := offset
@@ -313,6 +489,28 @@ func (m *QueryParamsResponse) Size() (n int) {
 	_ = l
 	l = m.Params.Size()
 	n += 1 + l + sovQuery(uint64(l))
+	return n
+}
+
+func (m *QueryAdminAddressRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *QueryAdminAddressResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Address)
+	if l > 0 {
+		n += 1 + l + sovQuery(uint64(l))
+	}
 	return n
 }
 
@@ -433,6 +631,138 @@ func (m *QueryParamsResponse) Unmarshal(dAtA []byte) error {
 			if err := m.Params.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryAdminAddressRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryAdminAddressRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryAdminAddressRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryAdminAddressResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryAdminAddressResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryAdminAddressResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Address", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Address = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
