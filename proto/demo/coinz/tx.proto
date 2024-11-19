@@ -1,4 +1,5 @@
 syntax = "proto3";
+
 package demo.coinz;
 
 import "amino/amino.proto";
@@ -12,29 +13,40 @@ option go_package = "github.com/jtieri/demo/x/coinz/types";
 // Msg defines the Msg service.
 service Msg {
   option (cosmos.msg.v1.service) = true;
-
+  
   // UpdateParams defines a (governance) operation for updating the module
   // parameters. The authority defaults to the x/gov module account.
-  rpc UpdateParams(MsgUpdateParams) returns (MsgUpdateParamsResponse);
+  rpc UpdateParams (MsgUpdateParams) returns (MsgUpdateParamsResponse);
+  rpc UpdateAdmin  (MsgUpdateAdmin ) returns (MsgUpdateAdminResponse );
 }
-
 // MsgUpdateParams is the Msg/UpdateParams request type.
 message MsgUpdateParams {
-  option (cosmos.msg.v1.signer) = "authority";
-  option (amino.name) = "demo/x/coinz/MsgUpdateParams";
-
+  option (cosmos.msg.v1.signer) =                    "authority";
+  option           (amino.name) = "demo/x/coinz/MsgUpdateParams";
+  
   // authority is the address that controls the module (defaults to x/gov unless overwritten).
   string authority = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
 
   // params defines the module parameters to update.
-  //
+  
   // NOTE: All parameters must be supplied.
-  Params params = 2 [
-    (gogoproto.nullable) = false,
-    (amino.dont_omitempty) = true
-  ];
+  Params params = 2 [(gogoproto.nullable) = false, (amino.dont_omitempty) = true];
 }
 
 // MsgUpdateParamsResponse defines the response structure for executing a
 // MsgUpdateParams message.
 message MsgUpdateParamsResponse {}
+
+// MsgUpdateAdmin is used to update the Admin address.
+// The msg will fail to execute if the from address does not equal the current Admin address.
+// If successful, the Admin address will be updated to the specified address.
+message MsgUpdateAdmin {
+  option (cosmos.msg.v1.signer) = "from";
+  string from    = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string address = 2 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+}
+
+// MsgUpdateAdminResponse is sent as a response to MsgUpdateAdmin.
+message MsgUpdateAdminResponse {
+}
+

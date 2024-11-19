@@ -35,6 +35,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					RpcMethod: "UpdateParams",
 					Skip:      true, // skipped because authority gated
 				},
+				{
+					RpcMethod:      "UpdateAdmin",
+					Use:            "update-admin [address]",
+					Short:          "Send a update-admin tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "address"}},
+				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
 		},
