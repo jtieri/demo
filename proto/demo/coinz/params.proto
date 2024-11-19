@@ -1,0 +1,15 @@
+syntax = "proto3";
+package demo.coinz;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/jtieri/demo/x/coinz/types";
+
+// Params defines the parameters for the module.
+message Params {
+  option (amino.name) = "demo/x/coinz/Params";
+  option (gogoproto.equal) = true;
+
+  
+}
