@@ -6,8 +6,7 @@ option go_package = "github.com/jtieri/demo/x/coinz/types";
 // Admin represents the authority address that is capable of executing permissioned actions in the coinz module.
 // It is capable to managing the pause state and minting new assets.
 // The Admin MUST be initialized at genesis via the genesis.json file.
-// Once initialized, the Admin can be updated to a new address via MsgUpdateAdmin via the existing Admin.
+// Once initialized, the Admin can be updated to a new address via MsgUpdateAdmin by the existing Admin.
 message Admin {
-  
   string address = 1; 
 }
