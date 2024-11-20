@@ -10,3 +10,6 @@ docker-image:
 
 test:
 	@go test -mod=readonly -race ./...
+
+ictest:
+	cd e2e && go test -race -v .
