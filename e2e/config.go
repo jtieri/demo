@@ -1,19 +1,24 @@
 package e2e
 
 import (
+	"context"
+	"testing"
+
 	"github.com/cosmos/cosmos-sdk/types/module/testutil"
 	coinztypes "github.com/jtieri/demo/x/coinz/types"
 	"github.com/strangelove-ventures/interchaintest/v8"
 	"github.com/strangelove-ventures/interchaintest/v8/chain/cosmos"
 	"github.com/strangelove-ventures/interchaintest/v8/ibc"
+	"github.com/strangelove-ventures/interchaintest/v8/testreporter"
+	"go.uber.org/zap/zaptest"
 )
 
 var (
-	adminAddress  = "cosmos1jtvahy53nvaftwq6r04dmnalv6re2av0xgp705"
-	adminMnemonic = "today please woman quote finger problem patrol inflict usual crystal brick gesture myself permit clutch upset book clarify embrace mixture enact board awful almost"
+	defaultAdminAddr = "cosmos1jtvahy53nvaftwq6r04dmnalv6re2av0xgp705"
+	defaultAdminSeed = "today please woman quote finger problem patrol inflict usual crystal brick gesture myself permit clutch upset book clarify embrace mixture enact board awful almost"
 
-	admin = coinztypes.Admin{
-		Address: adminAddress,
+	defaultAdmin = coinztypes.Admin{
+		Address: defaultAdminAddr,
 	}
 
 	numVals  = 1
@@ -39,7 +44,7 @@ var (
 			GasAdjustment:  1.5,
 			TrustingPeriod: "100h",
 			PreGenesis:     nil,
-			ModifyGenesis:  modifyGenesis(admin),
+			ModifyGenesis:  modifyGenesis(defaultAdmin),
 			EncodingConfig: encodingConfig(),
 		},
 		NumValidators: &numVals,
@@ -60,7 +65,7 @@ var (
 			GasAdjustment:  1.5,
 			TrustingPeriod: "100h",
 			PreGenesis:     nil,
-			ModifyGenesis:  modifyGenesis(admin),
+			ModifyGenesis:  modifyGenesis(defaultAdmin),
 			EncodingConfig: encodingConfig(),
 		},
 		NumValidators: &numVals,
@@ -88,4 +93,49 @@ func encodingConfig() *testutil.TestEncodingConfig {
 	coinztypes.RegisterInterfaces(c.InterfaceRegistry)
 
 	return &c
+}
+
+// startDemoChain is a helper method used for configuring an interchaintest environment.
+// It handles all the configuration for spinning up any number of chains given a slice of ChainSpecs.
+func startDemoChain(
+	ctx context.Context,
+	t *testing.T,
+	reporter *testreporter.RelayerExecReporter,
+	chainSpecs []*interchaintest.ChainSpec,
+) ([]ibc.Chain, error) {
+	t.Helper()
+
+	cf := interchaintest.NewBuiltinChainFactory(zaptest.NewLogger(t), chainSpecs)
+
+	chains, err := cf.Chains(t.Name())
+	if err != nil {
+		return nil, err
+	}
+
+	ic := interchaintest.NewInterchain()
+
+	for _, chain := range chains {
+		ic.AddChain(chain)
+	}
+
+	client, network := interchaintest.DockerSetup(t)
+
+	err = ic.Build(ctx, reporter, interchaintest.InterchainBuildOptions{
+		TestName:         t.Name(),
+		Client:           client,
+		NetworkID:        network,
+		SkipPathCreation: true,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	t.Cleanup(func() {
+		err := ic.Close()
+		if err != nil {
+			t.Fatal(err)
+		}
+	})
+
+	return chains, nil
 }
