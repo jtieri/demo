@@ -3,7 +3,6 @@ package types
 import (
 	sdkerrors "cosmossdk.io/errors"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cosmos/cosmos-sdk/types/errors"
 )
 
 // this line is used by starport scaffolding # genesis/types/import
@@ -25,12 +24,14 @@ func DefaultGenesis() *GenesisState {
 func (gs GenesisState) Validate() error {
 	// this line is used by starport scaffolding # genesis/types/validate
 
-	if gs.Admin == nil {
-		sdkerrors.Wrapf(ErrInvalidAdmin, "admin cannot be nil")
-	}
-
-	if _, err := sdk.AccAddressFromBech32(gs.Admin.Address); err != nil {
-		return sdkerrors.Wrapf(errors.ErrInvalidAddress, "admin address is invalid got(%s)", gs.Admin.Address)
+	// If the admin address is set in genesis.json AFTER the validators run gentx then a panic will occur due to
+	// AppModuleBasic.ValidateGenesis being called during gentx, due to this we allow the Admin to be nil.
+	// The admin MUST be explicitly set in genesis.json before starting the chain.
+	// TODO: edit this comment
+	if gs.Admin != nil {
+		if _, err := sdk.AccAddressFromBech32(gs.Admin.Address); err != nil {
+			return sdkerrors.Wrapf(ErrInvalidAdmin, "admin address is invalid got(%s)", gs.Admin.Address)
+		}
 	}
 
 	return gs.Params.Validate()
