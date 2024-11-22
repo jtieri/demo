@@ -5,6 +5,7 @@ import "amino/amino.proto";
 import "gogoproto/gogo.proto";
 import "demo/coinz/params.proto";
 import "demo/coinz/admin.proto";
+import "demo/coinz/asset_metadata.proto";
 
 option go_package = "github.com/jtieri/demo/x/coinz/types";
 
@@ -19,4 +20,8 @@ message GenesisState {
   // Admin should be initialized via genesis.json as it can only be updated post-genesis if there is an existing
   // Admin already initialized.
   Admin admin = 2;
+
+  // AssetMetadata should be initialized via genesis.json as we do not expose any messages for updating
+  // it after the chain has started.
+  AssetMetadata asset = 3;
 }

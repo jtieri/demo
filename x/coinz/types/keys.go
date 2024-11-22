@@ -12,6 +12,9 @@ const (
 
 	// AdminKey defines the Admin store key
 	AdminKey = "Admin/value/"
+
+	// AssetMetadataKey defines the AssetMetadata store key
+	AssetMetadataKey = "AssetMetadata/value/"
 )
 
 var (

@@ -25,7 +25,7 @@ const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 // Admin represents the authority address that is capable of executing permissioned actions in the coinz module.
 // It is capable to managing the pause state and minting new assets.
 // The Admin MUST be initialized at genesis via the genesis.json file.
-// Once initialized, the Admin can be updated to a new address via MsgUpdateAdmin via the existing Admin.
+// Once initialized, the Admin can be updated to a new address via MsgUpdateAdmin by the existing Admin.
 type Admin struct {
 	Address string `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
 }

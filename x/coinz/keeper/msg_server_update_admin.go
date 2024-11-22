@@ -19,7 +19,7 @@ func (k msgServer) UpdateAdmin(goCtx context.Context, msg *types.MsgUpdateAdmin)
 	}
 
 	if msg.From != admin.Address {
-		return nil, sdkerrors.Wrapf(types.ErrCannotUpdateAdmin, "adress %s is not authorized to update the admin", msg.From)
+		return nil, sdkerrors.Wrapf(types.ErrCannotUpdateAdmin, "address %s is not authorized to update the admin", msg.From)
 	}
 
 	admin.Address = msg.Address

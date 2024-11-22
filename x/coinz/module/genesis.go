@@ -17,6 +17,10 @@ func InitGenesis(ctx sdk.Context, k keeper.Keeper, genState types.GenesisState) 
 	if genState.Admin != nil {
 		k.SetAdmin(ctx, *genState.Admin)
 	}
+
+	if genState.Asset != nil {
+		k.SetAssetMetadata(ctx, *genState.Asset)
+	}
 }
 
 // ExportGenesis returns the module's exported genesis.
@@ -27,6 +31,11 @@ func ExportGenesis(ctx sdk.Context, k keeper.Keeper) *types.GenesisState {
 	admin, found := k.GetAdmin(ctx)
 	if found {
 		genesis.Admin = &admin
+	}
+
+	asset, found := k.GetAssetMetadata(ctx)
+	if found {
+		genesis.Asset = &asset
 	}
 
 	// this line is used by starport scaffolding # genesis/module/export

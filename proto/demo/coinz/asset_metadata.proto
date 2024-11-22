@@ -1,0 +1,13 @@
+syntax = "proto3";
+package demo.coinz;
+
+option go_package = "github.com/jtieri/demo/x/coinz/types";
+import "gogoproto/gogo.proto"; 
+import "cosmos/base/v1beta1/coin.proto"; 
+
+// AssetMetadata represents the asset that the coinz module is able to mint and burn.
+// The coinz module will only be able to mint and burn a single asset. The asset amount
+// should be initialized to the initial total supply of the asset that will be minted at chain start.
+message AssetMetadata {
+  cosmos.base.v1beta1.Coin asset = 1 [(gogoproto.nullable) = false];
+}
