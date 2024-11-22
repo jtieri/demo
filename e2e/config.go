@@ -4,6 +4,8 @@ import (
 	"context"
 	"testing"
 
+	"cosmossdk.io/math"
+	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module/testutil"
 	coinztypes "github.com/jtieri/demo/x/coinz/types"
 	"github.com/strangelove-ventures/interchaintest/v8"
@@ -20,6 +22,11 @@ var (
 	defaultAdmin = coinztypes.Admin{
 		Address: defaultAdminAddr,
 	}
+
+	coinzDenom    = "myToken"
+	initialSupply = 0
+
+	defaultAssetMetadata = coinztypes.AssetMetadata{Asset: sdk.NewCoin(coinzDenom, math.NewInt(int64(initialSupply)))}
 
 	numVals  = 1
 	numNodes = 0
@@ -38,9 +45,9 @@ var (
 			Images:         []ibc.DockerImage{image},
 			Bin:            "demod",
 			Bech32Prefix:   "cosmos",
-			Denom:          "mytoken",
+			Denom:          "stake",
 			CoinType:       "118",
-			GasPrices:      "0.0mytoken",
+			GasPrices:      "0.0stake",
 			GasAdjustment:  1.5,
 			TrustingPeriod: "100h",
 			PreGenesis:     nil,
@@ -59,9 +66,9 @@ var (
 			Images:         []ibc.DockerImage{image},
 			Bin:            "demod",
 			Bech32Prefix:   "cosmos",
-			Denom:          "mytoken",
+			Denom:          "stake",
 			CoinType:       "118",
-			GasPrices:      "0.0mytoken",
+			GasPrices:      "0.0stake",
 			GasAdjustment:  1.5,
 			TrustingPeriod: "100h",
 			PreGenesis:     nil,
@@ -78,6 +85,7 @@ func modifyGenesis(admin coinztypes.Admin) func(cfg ibc.ChainConfig, bz []byte) 
 	return func(cfg ibc.ChainConfig, bz []byte) ([]byte, error) {
 		genesis := []cosmos.GenesisKV{
 			cosmos.NewGenesisKV("app_state.coinz.admin", admin),
+			cosmos.NewGenesisKV("app_state.coinz.asset", defaultAssetMetadata),
 		}
 
 		return cosmos.ModifyGenesis(genesis)(cfg, bz)
