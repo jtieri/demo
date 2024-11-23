@@ -24,7 +24,7 @@ func TestGenesis(t *testing.T) {
 		Params: types.DefaultParams(),
 		Admin:  &types.Admin{Address: adminAddress},
 		Asset:  &assetMetadata,
-
+		Pause:  &types.PauseState{Paused: true},
 		// this line is used by starport scaffolding # genesis/test/state
 	}
 
@@ -44,5 +44,6 @@ func TestGenesis(t *testing.T) {
 	require.Equal(t, assetMetadata.Asset.Denom, got.Asset.Asset.Denom)
 	require.True(t, assetMetadata.Asset.Amount.Equal(got.Asset.Asset.Amount))
 
+	require.Equal(t, genesisState.Pause, got.Pause)
 	// this line is used by starport scaffolding # genesis/test/assert
 }

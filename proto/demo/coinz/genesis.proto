@@ -1,4 +1,5 @@
 syntax = "proto3";
+
 package demo.coinz;
 
 import "amino/amino.proto";
@@ -6,22 +7,26 @@ import "gogoproto/gogo.proto";
 import "demo/coinz/params.proto";
 import "demo/coinz/admin.proto";
 import "demo/coinz/asset_metadata.proto";
+import "demo/coinz/pause_state.proto";
 
 option go_package = "github.com/jtieri/demo/x/coinz/types";
 
 // GenesisState defines the coinz module's genesis state.
 message GenesisState {
+  
   // params defines all the parameters of the module.
-  Params params = 1 [
-    (gogoproto.nullable) = false,
-    (amino.dont_omitempty) = true
-  ];
-
+  Params params = 1 [(gogoproto.nullable) = false, (amino.dont_omitempty) = true];
+  
   // Admin should be initialized via genesis.json as it can only be updated post-genesis if there is an existing
   // Admin already initialized.
   Admin admin = 2;
-
+  
   // AssetMetadata should be initialized via genesis.json as we do not expose any messages for updating
   // it after the chain has started.
   AssetMetadata asset = 3;
+
+  // PauseState must be initialized via genesis.json as we do not expose any message for initializing
+  // it after the chain has started.
+  PauseState pause = 4 [(gogoproto.jsontag) = "pause"];
 }
+

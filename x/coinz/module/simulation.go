@@ -31,6 +31,10 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgMint int = 100
 
+	opWeightMsgUpdatePauseState = "op_weight_msg_pause_state"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgUpdatePauseState int = 100
+
 	// this line is used by starport scaffolding # simapp/module/const
 )
 
@@ -76,6 +80,17 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 		coinzsimulation.SimulateMsgMint(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
+	var weightMsgUpdatePauseState int
+	simState.AppParams.GetOrGenerate(opWeightMsgUpdatePauseState, &weightMsgUpdatePauseState, nil,
+		func(_ *rand.Rand) {
+			weightMsgUpdatePauseState = defaultWeightMsgUpdatePauseState
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgUpdatePauseState,
+		coinzsimulation.SimulateMsgUpdatePauseState(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
 	// this line is used by starport scaffolding # simapp/module/operation
 
 	return operations
@@ -97,6 +112,14 @@ func (am AppModule) ProposalMsgs(simState module.SimulationState) []simtypes.Wei
 			defaultWeightMsgMint,
 			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
 				coinzsimulation.SimulateMsgMint(am.accountKeeper, am.bankKeeper, am.keeper)
+				return nil
+			},
+		),
+		simulation.NewWeightedProposalMsg(
+			opWeightMsgUpdatePauseState,
+			defaultWeightMsgUpdatePauseState,
+			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
+				coinzsimulation.SimulateMsgUpdatePauseState(am.accountKeeper, am.bankKeeper, am.keeper)
 				return nil
 			},
 		),

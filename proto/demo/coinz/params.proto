@@ -10,6 +10,4 @@ option go_package = "github.com/jtieri/demo/x/coinz/types";
 message Params {
   option (amino.name) = "demo/x/coinz/Params";
   option (gogoproto.equal) = true;
-
-  
 }

@@ -15,6 +15,9 @@ const (
 
 	// AssetMetadataKey defines the AssetMetadata store key
 	AssetMetadataKey = "AssetMetadata/value/"
+
+	// PauseStateKey defines the PauseState store key
+	PauseStateKey = "PauseState/value/"
 )
 
 var (

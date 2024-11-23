@@ -9,6 +9,10 @@ import (
 
 // InitGenesis initializes the module's state from a provided genesis state.
 func InitGenesis(ctx sdk.Context, k keeper.Keeper, genState types.GenesisState) {
+	if genState.Pause != nil {
+		k.SetPauseState(ctx, *genState.Pause)
+	}
+
 	// this line is used by starport scaffolding # genesis/module/init
 	if err := k.SetParams(ctx, genState.Params); err != nil {
 		panic(err)
@@ -36,6 +40,11 @@ func ExportGenesis(ctx sdk.Context, k keeper.Keeper) *types.GenesisState {
 	asset, found := k.GetAssetMetadata(ctx)
 	if found {
 		genesis.Asset = &asset
+	}
+
+	pauseState, found := k.GetPauseState(ctx)
+	if found {
+		genesis.Pause = &pauseState
 	}
 
 	// this line is used by starport scaffolding # genesis/module/export

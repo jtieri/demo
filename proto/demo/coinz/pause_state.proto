@@ -1,0 +1,14 @@
+syntax = "proto3";
+package demo.coinz;
+
+import "gogoproto/gogo.proto";
+
+option go_package = "github.com/jtieri/demo/x/coinz/types";
+
+// PauseState represents the modules pause state. The PauseState can only be updated by the Admin.
+// If the PauseState is true then minting and burning are disabled.
+// The PauseState MUST be initialized at genesis because there is no way to initialize the PauseState after the
+// chain starts.
+message PauseState {
+  bool paused = 1 [(gogoproto.jsontag) = "paused"];
+}

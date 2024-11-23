@@ -13,6 +13,7 @@ const DefaultIndex uint64 = 1
 // DefaultGenesis returns the default genesis state
 func DefaultGenesis() *GenesisState {
 	return &GenesisState{
+		Pause: nil,
 		// this line is used by starport scaffolding # genesis/types/default
 		Params: DefaultParams(),
 		Admin:  nil,
@@ -34,6 +35,9 @@ func (gs GenesisState) Validate() error {
 		}
 	}
 
+	// If the AssetMetadata address is set in genesis.json AFTER the validators run gentx then a panic will occur due to
+	// AppModuleBasic.ValidateGenesis being called during gentx, due to this we allow the AssetMetadata to be nil.
+	// The AssetMetadata MUST be explicitly set in genesis.json before starting the chain.
 	if gs.Asset != nil {
 		if !gs.Asset.Asset.IsValid() {
 			return sdkerrors.Wrapf(ErrInvalidAssetMetadata, "check denom and initial supply amount got(%s)", gs.Asset.Asset)

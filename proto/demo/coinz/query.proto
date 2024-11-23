@@ -5,7 +5,6 @@ package demo.coinz;
 import "amino/amino.proto";
 import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
-import "cosmos/base/query/v1beta1/pagination.proto";
 import "demo/coinz/params.proto";
 
 option go_package = "github.com/jtieri/demo/x/coinz/types";
@@ -24,6 +23,12 @@ service Query {
     option (google.api.http).get = "/jtieri/demo/coinz/admin_address";
   
   }
+  
+  // Queries a PauseState by index.
+  rpc PauseState (QueryGetPauseStateRequest) returns (QueryGetPauseStateResponse) {
+    option (google.api.http).get = "/jtieri/demo/coinz/pause_state";
+  
+  }
 }
 // QueryParamsRequest is request type for the Query/Params RPC method.
 message QueryParamsRequest {}
@@ -35,9 +40,19 @@ message QueryParamsResponse {
   Params params = 1 [(gogoproto.nullable) = false, (amino.dont_omitempty) = true];
 }
 
+// QueryAdminAddressRequest is used to query the Admin address from state.
 message QueryAdminAddressRequest {}
 
+// QueryAdminAddressResponse is sent as a response to QueryAdminAddressRequest with the Admins address.
 message QueryAdminAddressResponse {
   string address = 1;
+}
+
+// QueryGetPauseStateRequest is used to query the PauseState from state.
+message QueryGetPauseStateRequest {}
+
+// QueryGetPauseStateResponse is sent as a response to QueryGetPauseStateRequest with the PauseState value.
+message QueryGetPauseStateResponse {
+  bool paused = 1 [(gogoproto.jsontag) = "paused"];
 }
 

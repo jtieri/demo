@@ -24,6 +24,11 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{},
 				},
 
+				{
+					RpcMethod: "PauseState",
+					Use:       "show-pause-state",
+					Short:     "Query the modules pause state",
+				},
 				// this line is used by ignite scaffolding # autocli/query
 			},
 		},
@@ -46,6 +51,13 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Use:            "mint [address] [amount]",
 					Short:          "Send a mint tx",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "address"}, {ProtoField: "amount"}},
+				},
+
+				{
+					RpcMethod:      "UpdatePauseState",
+					Use:            "update-pause-state [paused]",
+					Short:          "Update pause-state",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "paused"}},
 				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},

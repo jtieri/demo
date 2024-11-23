@@ -13,7 +13,15 @@ import (
 func (k msgServer) Mint(goCtx context.Context, msg *types.MsgMint) (*types.MsgMintResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	// TODO: check if paused so we can return an error as early as possible.
+	// Check if the module is paused, if so minting cannot occur until it is not paused.
+	pauseState, found := k.GetPauseState(ctx)
+	if !found {
+		return nil, sdkerrors.Wrap(types.ErrPauseStateNotFound, "pause state may not be initialized")
+	}
+
+	if pauseState.Paused {
+		return nil, sdkerrors.Wrap(types.ErrCannotMint, "coinz module is currently paused")
+	}
 
 	// Validate the MsgMint is being sent from the admin account.
 	admin, found := k.GetAdmin(ctx)
