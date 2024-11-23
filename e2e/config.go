@@ -28,6 +28,8 @@ var (
 
 	defaultAssetMetadata = coinztypes.AssetMetadata{Asset: sdk.NewCoin(coinzDenom, math.NewInt(int64(initialSupply)))}
 
+	defaultPauseState = coinztypes.PauseState{Paused: true}
+
 	numVals  = 1
 	numNodes = 0
 
@@ -57,27 +59,6 @@ var (
 		NumValidators: &numVals,
 		NumFullNodes:  &numNodes,
 	}
-
-	chainBSpec = interchaintest.ChainSpec{
-		ChainConfig: ibc.ChainConfig{
-			Type:           "cosmos",
-			Name:           "demo",
-			ChainID:        "demo-2",
-			Images:         []ibc.DockerImage{image},
-			Bin:            "demod",
-			Bech32Prefix:   "cosmos",
-			Denom:          "stake",
-			CoinType:       "118",
-			GasPrices:      "0.0stake",
-			GasAdjustment:  1.5,
-			TrustingPeriod: "100h",
-			PreGenesis:     nil,
-			ModifyGenesis:  modifyGenesis(defaultAdmin),
-			EncodingConfig: encodingConfig(),
-		},
-		NumValidators: &numVals,
-		NumFullNodes:  &numNodes,
-	}
 )
 
 // modifyGenesis is used in the ChainConfig to make changes to the genesis file before starting the chain.
@@ -86,6 +67,7 @@ func modifyGenesis(admin coinztypes.Admin) func(cfg ibc.ChainConfig, bz []byte) 
 		genesis := []cosmos.GenesisKV{
 			cosmos.NewGenesisKV("app_state.coinz.admin", admin),
 			cosmos.NewGenesisKV("app_state.coinz.asset", defaultAssetMetadata),
+			cosmos.NewGenesisKV("app_state.coinz.pause", defaultPauseState),
 		}
 
 		return cosmos.ModifyGenesis(genesis)(cfg, bz)
@@ -94,7 +76,7 @@ func modifyGenesis(admin coinztypes.Admin) func(cfg ibc.ChainConfig, bz []byte) 
 
 // encodingConfig is used in the ChainConfig to wire up the appropriate encodings needed to decode
 // msgs related to the coinz module from within interchaintest.
-// This is useful for debugging output generated from tests run via interchaintest..
+// This is useful for debugging output generated from tests run via interchaintest.
 func encodingConfig() *testutil.TestEncodingConfig {
 	c := cosmos.DefaultEncoding()
 

@@ -49,10 +49,35 @@ func TestMint(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, initialSupply, totalSupply)
 
-	// Mint assets from the admin account to the user account.
+	// Attempt to mint assets from the admin account to the user account.
+	// This should fail because the module is paused.
 	amount := int64(10_000)
 	mintAmount := sdk.NewCoin(coinzDenom, math.NewInt(amount))
 
+	err = mintAssets(ctx, t, userWallet.FormattedAddress(), mintAmount, adminWallet.KeyName(), valNode)
+	require.Error(t, err)
+	require.True(t, strings.Contains(err.Error(), "coinz module is currently paused"))
+
+	// Assert that the assets were not minted.
+	totalSupply, err = queryTotalSupply(ctx, t, coinzDenom, valNode)
+	require.NoError(t, err)
+	require.Equal(t, initialSupply, totalSupply)
+
+	// Assert that the user did not receive any funds.
+	balance, err := chainA.GetBalance(ctx, userWallet.FormattedAddress(), coinzDenom)
+	require.NoError(t, err)
+	require.True(t, balance.Equal(math.ZeroInt()))
+
+	// Attempt to update the PauseState from the admin account.
+	err = updatePauseState(ctx, t, adminWallet.KeyName(), false, valNode)
+	require.NoError(t, err)
+
+	// Assert that the PauseState was updated.
+	pauseState, err := queryPauseState(ctx, t, valNode)
+	require.NoError(t, err)
+	require.False(t, pauseState)
+
+	// Attempt to mint assets from the admin account to the user account.
 	err = mintAssets(ctx, t, userWallet.FormattedAddress(), mintAmount, adminWallet.KeyName(), valNode)
 	require.NoError(t, err)
 
@@ -62,7 +87,7 @@ func TestMint(t *testing.T) {
 	require.Equal(t, mintAmount.Amount.Int64(), int64(totalSupply))
 
 	// Assert that the user received the minted funds.
-	balance, err := chainA.GetBalance(ctx, userWallet.FormattedAddress(), coinzDenom)
+	balance, err = chainA.GetBalance(ctx, userWallet.FormattedAddress(), coinzDenom)
 	require.NoError(t, err)
 	require.True(t, balance.Equal(mintAmount.Amount))
 
