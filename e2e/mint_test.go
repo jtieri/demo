@@ -16,8 +16,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-// TestMint asserts that initializing the Asset at genesis works correctly,
-// as well as the minting of new tokens via the coinz module.
+// TestMint asserts that the behavior around minting assets via the coinz module works properly.
 func TestMint(t *testing.T) {
 	var (
 		ctx  = context.Background()
