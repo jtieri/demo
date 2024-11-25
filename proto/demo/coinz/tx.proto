@@ -21,8 +21,8 @@ service Msg {
   rpc UpdateAdmin      (MsgUpdateAdmin     ) returns (MsgUpdateAdminResponse     );
   rpc Mint             (MsgMint            ) returns (MsgMintResponse            );
   rpc UpdatePauseState (MsgUpdatePauseState) returns (MsgUpdatePauseStateResponse);
+  rpc Burn             (MsgBurn            ) returns (MsgBurnResponse            );
 }
-
 // MsgUpdateParams is the Msg/UpdateParams request type.
 message MsgUpdateParams {
   option (cosmos.msg.v1.signer) =                    "authority";
@@ -78,3 +78,14 @@ message MsgUpdatePauseState {
 
 // MsgUpdatePauseStateResponse is sent as a response to MsgUpdatePauseState.
 message MsgUpdatePauseStateResponse {}
+
+// MsgBurn is used to burn assets.
+message MsgBurn {
+  option (cosmos.msg.v1.signer) = "from";
+  string                   from   = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  cosmos.base.v1beta1.Coin amount = 2 [(gogoproto.nullable) = false];
+}
+
+// MsgBurnResponse is sent as a response to MsgBurn.
+message MsgBurnResponse {}
+

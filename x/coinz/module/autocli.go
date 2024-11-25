@@ -59,6 +59,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Short:          "Update pause-state",
 					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "paused"}},
 				},
+				{
+					RpcMethod:      "Burn",
+					Use:            "burn [amount]",
+					Short:          "Send a burn tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "amount"}},
+				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
 		},

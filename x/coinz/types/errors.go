@@ -19,4 +19,5 @@ var (
 	ErrCannotUpdatePauseState = sdkerrors.Register(ModuleName, 1109, "cannot update pause state")
 	ErrPauseStateNotFound     = sdkerrors.Register(ModuleName, 1110, "pause state not found")
 	ErrPauseStateNotUpdated   = sdkerrors.Register(ModuleName, 1111, "pause state not updated")
+	ErrCannotBurn             = sdkerrors.Register(ModuleName, 1112, "cannot burn")
 )
